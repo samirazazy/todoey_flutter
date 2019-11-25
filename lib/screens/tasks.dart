@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/components/tasks_list.dart';
 import 'add_task.dart';
+import 'package:todoey_flutter/models/task.dart';
 
-class Tasks extends StatelessWidget {
+class Tasks extends StatefulWidget {
+  @override
+  _TasksState createState() => _TasksState();
+}
+
+class _TasksState extends State<Tasks> {
+  List<Task> tasks = [
+    Task(name: 'task1'),
+    Task(name: 'task2'),
+    Task(name: 'task3'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +23,14 @@ class Tasks extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => AddTask());
+            context: context,
+            builder: (context) => AddTask((newTaskTitle) {
+              setState(() {
+                tasks.add(Task(name: newTaskTitle));
+              });
+              Navigator.pop(context);
+            }),
+          );
         },
       ),
       backgroundColor: Colors.lightBlueAccent,
@@ -68,7 +87,7 @@ class Tasks extends StatelessWidget {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksList(),
+              child: TasksList(tasks),
             ),
           )
         ],
