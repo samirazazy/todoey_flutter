@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/components/tasks_list.dart';
 import 'add_task.dart';
-import 'package:todoey_flutter/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter/models/task_data.dart';
 
-class Tasks extends StatefulWidget {
-  @override
-  _TasksState createState() => _TasksState();
-}
-
-class _TasksState extends State<Tasks> {
-  List<Task> tasks = [
-    Task(name: 'task1'),
-    Task(name: 'task2'),
-    Task(name: 'task3'),
-  ];
-
+class Tasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,12 +14,14 @@ class _TasksState extends State<Tasks> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => AddTask((newTaskTitle) {
-              setState(() {
-                tasks.add(Task(name: newTaskTitle));
-              });
-              Navigator.pop(context);
-            }),
+            builder: (context) => AddTask(
+              (newTaskTitle) {
+//                setState(() {
+//                  tasks.add(Task(name: newTaskTitle));
+//                });
+                Navigator.pop(context);
+              },
+            ),
           );
         },
       ),
@@ -68,7 +60,7 @@ class _TasksState extends State<Tasks> {
                   ),
                 ),
                 Text(
-                  '12 Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
@@ -87,7 +79,7 @@ class _TasksState extends State<Tasks> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TasksList(tasks),
+              child: TasksList(),
             ),
           )
         ],

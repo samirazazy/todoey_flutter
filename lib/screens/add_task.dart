@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter/models/task_data.dart';
 
 class AddTask extends StatelessWidget {
   final Function addTaskCallback;
@@ -53,7 +55,8 @@ class AddTask extends StatelessWidget {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                addTaskCallback(newTaskTitle);
+                Provider.of<TaskData>(context).addTaskTitle(newTaskTitle);
+                Navigator.pop(context);
               },
             ),
           ],
